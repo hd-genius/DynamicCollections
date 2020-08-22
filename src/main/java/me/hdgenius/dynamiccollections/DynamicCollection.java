@@ -1,11 +1,21 @@
 package me.hdgenius.dynamiccollections;
 
-import java.util.Collection;
+import me.hdgenius.dynamiccollections.builder.DynamicCollectionBuilder;
+
+import java.util.*;
 
 public final class DynamicCollection {
 
-    public static <T> Collection<T> without(final Collection<T> valuesToExclude) {
-        return new ExcludedCollection<T>(valuesToExclude);
+    public static <T> Set<T> without(final Collection<T> valuesToExclude) {
+        return new ExclusionSet<T>(valuesToExclude);
+    }
+
+    public static <T> Set<T> without(final T ...valuesToExclude) {
+        return without(Arrays.asList(valuesToExclude));
+    }
+
+    public static <T> Set<T> ofAllValues() {
+        return new ExclusionSet<>(new HashSet<>());
     }
 
     public static Collection<Long> forRange(final long start, final long end) {
