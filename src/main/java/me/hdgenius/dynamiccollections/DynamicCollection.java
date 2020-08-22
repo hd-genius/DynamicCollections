@@ -1,7 +1,5 @@
 package me.hdgenius.dynamiccollections;
 
-import me.hdgenius.dynamiccollections.builder.DynamicCollectionBuilder;
-
 import java.util.*;
 
 public final class DynamicCollection {
@@ -21,10 +19,6 @@ public final class DynamicCollection {
 
     public static Collection<Long> forRange(final long start, final long end) {
         return new RangeCollection<>(start, end, x -> x + 1);
-    }
-
-    public static DynamicCollectionBuilder builder() {
-        return new DynamicCollectionBuilder();
     }
 
     private static <T> Set<T> createSetFromArray(final T[] values) {
