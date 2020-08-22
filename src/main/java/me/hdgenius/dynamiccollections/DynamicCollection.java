@@ -7,7 +7,7 @@ import java.util.*;
 public final class DynamicCollection {
 
     public static <T> Set<T> without(final Collection<T> valuesToExclude) {
-        return new ExclusionSet<T>(valuesToExclude);
+        return new ExclusionSet<T>(new HashSet<>(valuesToExclude));
     }
 
     public static <T> Set<T> without(final T ...valuesToExclude) {

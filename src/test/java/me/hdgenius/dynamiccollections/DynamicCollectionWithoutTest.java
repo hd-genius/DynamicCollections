@@ -48,6 +48,17 @@ public class DynamicCollectionWithoutTest {
     }
 
     @Test
+    @DisplayName("Should return a Set that does not modify the source collection when a value is removed")
+    public void testThatTheWithoutMethodReturnsASetThatDoesNotModifyTheSourceCollectionWhenAValueIsRemoved() {
+        final Collection<Integer> sourceCollection = Arrays.asList(1, 2, 3);
+        final Set<Integer> collectionWithoutValues = DynamicCollection.without(sourceCollection);
+
+        collectionWithoutValues.remove(5);
+
+        assertThat(sourceCollection, contains(1, 2, 3));
+    }
+
+    @Test
     @DisplayName("Should return a Set that correctly adds a requested value to the collection")
     public void testThatTheWithoutMethodReturnsASetThatCorrectlyAddsValues() {
         final int valueToAdd = 3;
@@ -57,6 +68,17 @@ public class DynamicCollectionWithoutTest {
         collectionWithoutValues.add(valueToAdd);
 
         assertThat(collectionWithoutValues.contains(valueToAdd), is(true));
+    }
+
+    @Test
+    @DisplayName("Should return a Set that does not modify the source collection when a value is added")
+    public void testThatTheWithoutMethodReturnsASetThatDoesNotModifyTheSourceCollectionWhenAValueIsAdded() {
+        final Collection<Integer> sourceCollection = Arrays.asList(1, 2, 3);
+        final Set<Integer> collectionWithoutValues = DynamicCollection.without(sourceCollection);
+
+        collectionWithoutValues.add(1);
+
+        assertThat(sourceCollection, contains(1, 2, 3));
     }
 
     @Test

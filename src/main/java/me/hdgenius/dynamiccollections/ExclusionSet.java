@@ -1,15 +1,13 @@
 package me.hdgenius.dynamiccollections;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ExclusionSet<T> implements Set<T> {
 
-    private Collection<T> valuesToExclude;
+    private Set<T> valuesToExclude;
 
-    ExclusionSet(final Collection<T> valuesToExclude) {
+    ExclusionSet(final Set<T> valuesToExclude) {
         this.valuesToExclude = valuesToExclude;
     }
 
@@ -62,13 +60,14 @@ public class ExclusionSet<T> implements Set<T> {
         return valuesToExclude.addAll((Collection<T>) values);
     }
 
-    public boolean retainAll(final Collection<?> valuesToRetain) {
-        valuesToExclude = new ExclusionSet<>((Collection<T>) valuesToRetain);
+    public boolean retainAll(final Collection<?> requestedValues) {
+        final Set<T> valuesToRetain = (Set) requestedValues.stream().filter(this::contains).collect(Collectors.toSet());
+        valuesToExclude = new ExclusionSet<>(valuesToRetain);
         return true;
     }
 
     public void clear() {
-        final Collection<T> noValues = new ArrayList<>();
+        final Set<T> noValues = new HashSet<>();
         valuesToExclude = new ExclusionSet<>(noValues);
     }
 }
