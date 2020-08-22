@@ -47,4 +47,27 @@ public class DynamicCollectionWithoutTest {
         assertThat(collectionWithoutValues.contains(removedValue), is(false));
     }
 
+    @Test
+    @DisplayName("Should return a Set that correctly adds a requested value to the collection")
+    public void testThatTheWithoutMethodReturnsASetThatCorrectlyAddsValues() {
+        final int valueToAdd = 3;
+        final Collection<Integer> excludedValues = new ArrayList<>();
+        excludedValues.add(valueToAdd);
+        final Set<Integer> collectionWithoutValues = DynamicCollection.without(excludedValues);
+        collectionWithoutValues.add(valueToAdd);
+
+        assertThat(collectionWithoutValues.contains(valueToAdd), is(true));
+    }
+
+    @Test
+    @DisplayName("Should return a Set that correctly clears all values")
+    public void testThatTheWithoutMethodReturnsASetThatCorrectlyClearsAllValues() {
+        final Set<Integer> collectionWithoutValues = DynamicCollection.without(new ArrayList<>());
+        collectionWithoutValues.clear();
+
+        for (int valueToCheck = 0; valueToCheck < 10; valueToCheck++) {
+            assertThat(collectionWithoutValues.contains(valueToCheck), is(false));
+        }
+    }
+
 }

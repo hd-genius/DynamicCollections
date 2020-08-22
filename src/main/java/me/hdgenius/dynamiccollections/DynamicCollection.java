@@ -11,7 +11,8 @@ public final class DynamicCollection {
     }
 
     public static <T> Set<T> without(final T ...valuesToExclude) {
-        return without(Arrays.asList(valuesToExclude));
+        final Collection<T> collectionOfValuesToExclude = createSetFromArray(valuesToExclude);
+        return without(collectionOfValuesToExclude);
     }
 
     public static <T> Set<T> ofAllValues() {
@@ -20,6 +21,16 @@ public final class DynamicCollection {
 
     public static Collection<Long> forRange(final long start, final long end) {
         return new RangeCollection<>(start, end, x -> x + 1);
+    }
+
+    public static DynamicCollectionBuilder builder() {
+        return new DynamicCollectionBuilder();
+    }
+
+    private static <T> Set<T> createSetFromArray(final T[] values) {
+        final Set<T> result = new HashSet<>();
+        Collections.addAll(result, values);
+        return result;
     }
 
 }
