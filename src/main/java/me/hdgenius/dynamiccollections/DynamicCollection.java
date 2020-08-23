@@ -18,7 +18,7 @@ public final class DynamicCollection {
     }
 
     public static Collection<Long> forRange(final long start, final long end) {
-        return new RangeCollection<>(start, end, x -> x + 1);
+        return new RangeCollection<>(start, end, Long::compare, x -> x + 1);
     }
 
     private static <T> Set<T> createSetFromArray(final T[] values) {

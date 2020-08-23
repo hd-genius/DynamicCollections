@@ -1,20 +1,22 @@
 package me.hdgenius.dynamiccollections;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Iterator;
-import java.util.function.BinaryOperator;
 import java.util.function.UnaryOperator;
 
 // This class only works with discrete datasets where the incrementer generates every value within the upper and lower bounds
-public class RangeCollection<T extends Comparable<T>> implements Collection<T> {
+public class RangeCollection<T> implements Collection<T> {
 
     final T startingValue;
     final T endingValue;
+    final Comparator<T> comparator;
     final UnaryOperator<T> incrementer;
 
-    RangeCollection(final T startingValue, final T endingValue, final UnaryOperator<T> incrementer) {
+    RangeCollection(final T startingValue, final T endingValue, final Comparator<T> comparator, final UnaryOperator<T> incrementer) {
         this.startingValue = startingValue;
         this.endingValue = endingValue;
+        this.comparator = comparator;
         this.incrementer = incrementer;
     }
 
@@ -31,7 +33,7 @@ public class RangeCollection<T extends Comparable<T>> implements Collection<T> {
 
     @Override
     public boolean contains(final Object value) {
-        return isWithingUpperBound(value) && isWithinLowerBound(value);
+        return isWithinUpperBound((T) value) && isWithinLowerBound((T) value);
     }
 
     @Override
@@ -84,11 +86,11 @@ public class RangeCollection<T extends Comparable<T>> implements Collection<T> {
 
     }
 
-    private boolean isWithinLowerBound(final Object value) {
-        return startingValue.compareTo((T) value) <= 0;
+    private boolean isWithinLowerBound(final T value) {
+        return comparator.compare(startingValue, value) <= 0;
     }
 
-    private boolean isWithingUpperBound(final Object value) {
-        return endingValue.compareTo((T) value) >= 0;
+    private boolean isWithinUpperBound(final T value) {
+        return comparator.compare(endingValue, value) >= 0;
     }
 }
